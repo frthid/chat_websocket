@@ -1,0 +1,26 @@
+// @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;1,200;1,300&display=swap');
+
+// //fonts
+// $Nunito: 'Nunito', sans-serif;
+
+//color
+
+$primary-color: #16354D;
+$primary-light: lighten($primary-color, 20%);
+$primary-dark: darken($primary-color, 20%);
+
+$secondary-color: #6B99C3;
+$secondary-light: lighten($secondary-color, 10%);
+$secondary-dark: darken($secondary-color, 10%);
+
+$additional_color: #ffffff;
+$additional-light: lighten($additional_color, 10%);
+$additional-dark: darken($additional_color, 10%);
+
+$item-color: #D2D2D4;
+$item-light: lighten($item-color, 10%);
+$item-dark: darken($item-color, 10%);
+
+$text-color: #E4E5EA;
+$text-secondary-color: #0C151C;
+
