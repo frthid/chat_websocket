@@ -7,7 +7,7 @@ import { useAppDispatch } from '../../hooks/reduxHook';
 import { removeUser } from '../../store/features/userSlice';
 
 interface Users {
-  user: string;
+  name: string;
   socketID: string;
 }
 
@@ -26,9 +26,12 @@ export const Sidebar = () => {
     };
   }, [socket]);
 
+  console.log(socket.id)
+
   const handleLeave = () => {
     localStorage.removeItem('user');
     dispatch(removeUser());
+    socket.emit('leaveChat', socket.id);
     navigate('/');
   };
 
@@ -37,7 +40,7 @@ export const Sidebar = () => {
       <h3 className={classes.sidebar__header}>Пользователи</h3>
       <ul className={classes.sidebar__users}>
         {users.map((user) => (
-          <li key={user.socketID}>{user.user}</li>
+          <li key={user.socketID}>{user.name}</li>
         ))}
       </ul>
       <Button onClick={handleLeave} variant='message'>

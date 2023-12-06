@@ -6,7 +6,7 @@ import { useSocket } from '../../Context/SocketContext';
 interface Message {
   text: string;
   name: string;
-  id: string;
+  messageID: string;
   socketID: string;
 }
 
@@ -29,7 +29,7 @@ export const Chat = () => {
       socket.emit('message', {
         text: message,
         name: localStorage.getItem('user'),
-        id: `${socket.id}-${Math.random()}`,
+        messageID: `${socket.id}-${Math.random()}`,
         socketID: socket.id,
       });
     }
@@ -41,14 +41,14 @@ export const Chat = () => {
       <div className={classes.chat__area}>
         {messages.map((mes) =>
           mes.socketID === socket.id ? (
-            <div className={classes.chat__area__message} key={mes.id}>
+            <div className={classes.chat__area__message} key={mes.messageID}>
               <p className={classes.chat__area__message__name}>Вы</p>
               <div className={classes.chat__area__message__sender}>
                 <p>{mes.text}</p>
               </div>
             </div>
           ) : (
-            <div className={classes.chat__area__message} key={mes.id}>
+            <div className={classes.chat__area__message} key={mes.messageID}>
               <p>{mes.name}</p>
               <div className={classes.chat__area__message__recipiens}>
                 <p>{mes.text}</p>

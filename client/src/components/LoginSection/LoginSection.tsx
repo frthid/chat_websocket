@@ -22,7 +22,7 @@ const LoginSection = () => {
     dispatch(addUser({name: user, id: socket.id}));
     //
     localStorage.setItem('user', user);
-    socket.emit('newUser', { user, socketID: socket.id });
+    socket.emit('newUser', { name: user, id: socket.id });
     navigate('/chat');
   };
 
