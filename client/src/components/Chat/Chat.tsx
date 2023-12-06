@@ -2,8 +2,9 @@ import { ChangeEvent, useState, useEffect } from 'react';
 import Form from '../UI/Form/Form';
 import classes from './Chat.module.scss';
 import { useSocket } from '../../Context/SocketContext';
+import Message from '../Message/Message';
 
-interface Message {
+interface IMessage {
   text: string;
   name: string;
   messageID: string;
@@ -12,11 +13,13 @@ interface Message {
 
 export const Chat = () => {
   const [message, setMessage] = useState<string>('');
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<IMessage[]>([]);
   const socket = useSocket();
 
   useEffect(() => {
-    socket.on('responseMessage', (data) => setMessages([...messages, data]));
+    socket.on('messageRes', (data) => {
+      setMessages([...messages, data]);
+    });
   }, [socket, messages]);
 
   const handleMessagetChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -38,25 +41,7 @@ export const Chat = () => {
 
   return (
     <div className={classes.chat}>
-      <div className={classes.chat__area}>
-        {messages.map((mes) =>
-          mes.socketID === socket.id ? (
-            <div className={classes.chat__area__message} key={mes.messageID}>
-              <p className={classes.chat__area__message__name}>Вы</p>
-              <div className={classes.chat__area__message__sender}>
-                <p>{mes.text}</p>
-              </div>
-            </div>
-          ) : (
-            <div className={classes.chat__area__message} key={mes.messageID}>
-              <p>{mes.name}</p>
-              <div className={classes.chat__area__message__recipiens}>
-                <p>{mes.text}</p>
-              </div>
-            </div>
-          )
-        )}
-      </div>
+      <Message messages={messages} />
       <div className={classes.chat__send}>
         <Form
           handleInputChange={handleMessagetChange}

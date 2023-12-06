@@ -8,42 +8,6 @@
   justify-content: space-between;
   flex-direction: column;
 
-  &__area{
-    height: 100%;
-    overflow-y: scroll;
-
-    &__message > p {
-      font-size: 13px;
-    }
-    &__message {
-      
-      &__name {
-        text-align: right;
-      }
-
-      &__recipiens{
-        background: $item-light;
-        padding: 10px;
-        max-width: 250px;
-        font-size: 15px;
-        border-radius: 10px;
-      }
-
-      &__sender{
-        background: $item-dark;
-        padding: 10px;
-        max-width: 250px;
-        font-size: 15px;
-        border-radius: 10px;
-        margin-left: auto;
-      }
-    }
-  }
-
-  &__area > * {
-  margin-bottom: 10px;
-  }
-
   &__send{
     // height: 100px;
     display: flex;

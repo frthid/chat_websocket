@@ -5,6 +5,7 @@ import classes from './Sidebar.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/reduxHook';
 import { removeUser } from '../../store/features/userSlice';
+import { FaRegUserCircle } from 'react-icons/fa';
 
 interface Users {
   name: string;
@@ -26,8 +27,6 @@ export const Sidebar = () => {
     };
   }, [socket]);
 
-  console.log(socket.id)
-
   const handleLeave = () => {
     localStorage.removeItem('user');
     dispatch(removeUser());
@@ -40,7 +39,10 @@ export const Sidebar = () => {
       <h3 className={classes.sidebar__header}>Пользователи</h3>
       <ul className={classes.sidebar__users}>
         {users.map((user) => (
-          <li key={user.socketID}>{user.name}</li>
+          <li key={`${socket.id}-${Math.random()}`}>
+            <FaRegUserCircle className={classes.icon}/>
+            <p>{user.name}</p>
+          </li>
         ))}
       </ul>
       <Button onClick={handleLeave} variant='message'>

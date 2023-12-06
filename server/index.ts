@@ -25,39 +25,73 @@ interface User {
   id: string;
 }
 
+interface IMessage {
+  text: string;
+  name: string;
+  messageID: string;
+  socketID: string;
+}
+
 const activeUsers: User[] = [];
+const messages: IMessage[] = [];
 
 io.on('connection', (socket: any) => {
   console.log(`${socket.id} user connected`);
+  io.to(socket.id).emit('addNewUser', activeUsers);
+  io.to(socket.id).emit('messages', messages);
 
   socket.on('disconnect', () => {
     console.log(`${socket.id} disconnected`);
-    const index = activeUsers.findIndex((user) => user.id);
-    if (index !== -1) {
+    const index = activeUsers.findIndex((user) => user.id === socket.id);
+    const disconnectedUser = activeUsers.find((user) => user.id === socket.id);
+    if (disconnectedUser) {
       activeUsers.splice(index, 1);
       io.emit('addNewUser', activeUsers);
+      const disconnectMessage = {
+        text: `${disconnectedUser.name} покинул чат.`,
+        name: disconnectedUser.name,
+        messageID: disconnectedUser.id,
+        socketID: socket.id,
+      };
+      messages.push(disconnectMessage);
+      io.emit('messageRes', disconnectMessage);
     }
-    console.log(activeUsers)
-
-  });
-  socket.on('message', (data: string) => {
-    console.log(data);
-    io.emit('responseMessage', data);
   });
 
-  socket.on('newUser', (data: { name: string, id: string }) => {
+  socket.on('message', (data: IMessage) => {
+    messages.push(data);
+    console.log(messages);
+    io.emit('messageRes', data);
+  });
+
+  socket.on('newUser', (data: { name: string; id: string }) => {
     activeUsers.push(data);
     io.emit('addNewUser', activeUsers);
-    console.log(activeUsers)
+    const connectMessage = {
+      text: `${data.name} присоединился к чату.`,
+      name: data.name,
+      messageID: `${socket.id}-${Math.random()}`,
+      socketID: socket.id,
+    };
+    messages.push(connectMessage);
+    io.emit('messageRes', connectMessage);
   });
 
   socket.on('leaveChat', (socketID: string) => {
     const index = activeUsers.findIndex((user) => user.id === socketID);
-    if (index !== -1) {
+    const disconnectedUser = activeUsers.find((user) => user.id === socketID);
+    if (disconnectedUser) {
       activeUsers.splice(index, 1);
       io.emit('addNewUser', activeUsers);
+      const disconnectMessage = {
+        text: `${disconnectedUser.name} покинул чат.`,
+        name: disconnectedUser.name,
+        messageID: disconnectedUser.id,
+        socketID: socket.id,
+      };
+      messages.push(disconnectMessage);
+      io.emit('messageRes', disconnectMessage);
     }
-    console.log(activeUsers)
   });
 });
 
