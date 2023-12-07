@@ -4,6 +4,7 @@ import LoginPage from '../pages/LoginPage/LoginPage';
 // import AuthRoute from '../helpers/AuthRoute';
 import ChatPage from '../pages/ChatPage/ChatPage';
 
+//AuthRoute использовался для перенаправления на страницу входа если состояние активного юзера сбрасывалось
 
 export const routes = createBrowserRouter(
   createRoutesFromElements(

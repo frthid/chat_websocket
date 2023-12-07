@@ -1,5 +1,15 @@
 {
-  "dependencies": {
-    "redux-persist": "^6.0.0"
-  }
+  "name": "chat-websocket",
+  "version": "1.0.0",
+  "description": "chat on react websockets",
+  "main": "index.js",
+  "scripts": {
+    "install-all-deps": "npm install && cd client && npm install && cd ../server && npm install",
+    "dev": "npm-run-all --parallel start-client start-server",
+    "start-client": "cd client && npm run dev",
+    "start-server": "cd server && npm start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

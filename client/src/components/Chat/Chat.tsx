@@ -4,14 +4,7 @@ import classes from './Chat.module.scss';
 import { useSocket } from '../../Context/SocketContext';
 import Message from '../Message/Message';
 import { TiArrowSortedDown, TiArrowSortedUp } from 'react-icons/ti';
-
-interface IMessage {
-  text: string;
-  name: string;
-  messageID: string;
-  socketID: string;
-  time: number;
-}
+import { IMessage } from '../../model/types';
 
 export const Chat = () => {
   const [message, setMessage] = useState<string>('');
@@ -64,9 +57,8 @@ export const Chat = () => {
         {!sort ? (
           <TiArrowSortedDown onClick={handleSort} className={classes.chat__send__sort} />
         ) : (
-          <TiArrowSortedUp onClick={handleSort} className={classes.chat__send__sort}/>
+          <TiArrowSortedUp onClick={handleSort} className={classes.chat__send__sort} />
         )}
-
         <Form
           handleInputChange={handleMessagetChange}
           value={message}

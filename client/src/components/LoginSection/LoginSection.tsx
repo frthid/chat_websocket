@@ -5,6 +5,7 @@ import { ChangeEvent, useState } from 'react';
 import { useSocket } from '../../Context/SocketContext';
 import { useAppDispatch } from '../../hooks/reduxHook';
 import { addUser } from '../../store/features/userSlice';
+import { addUsers } from '../../store/features/usersSlice';
 
 const LoginSection = () => {
   const [user, setUser] = useState<string>('');
@@ -18,9 +19,8 @@ const LoginSection = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    //
-    dispatch(addUser({name: user, id: socket.id}));
-    //
+    dispatch(addUser({ name: user, id: socket.id }));
+    dispatch(addUsers({ name: user, id: socket.id }));
     localStorage.setItem('user', user);
     socket.emit('newUser', { name: user, id: socket.id });
     navigate('/chat');

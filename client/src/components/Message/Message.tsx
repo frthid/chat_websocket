@@ -1,13 +1,6 @@
 import { useSocket } from '../../Context/SocketContext';
+import { IMessage } from '../../model/types';
 import classes from './Message.module.scss';
-
-interface IMessage {
-  text: string;
-  name: string;
-  messageID: string;
-  socketID: string;
-  time: number;
-}
 
 interface Messages {
   messages: IMessage[];

@@ -5,11 +5,11 @@ interface User {
   id: string;
 }
 
-interface Users {
+export interface Users {
   users: User[];
 }
 
-const initialState: Users = {
+export const initialState: Users = {
   users: [],
 };
 
@@ -28,6 +28,7 @@ export const usersSlice = createSlice({
     },
   },
 });
+
 
 export const { setUsers, addUsers, removeUsers} = usersSlice.actions;
 

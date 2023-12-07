@@ -19,7 +19,9 @@ export const handleSocket = (io: Server) => {
     });
 
     socket.on('newUser', (data: { name: string; id: string }) => {
+      console.log('do', activeUsers);
       handleNewUser(data, io, socket);
+      console.log('posle', activeUsers);
     });
 
     socket.on('leaveChat', (socketID: string) => {
@@ -68,18 +70,18 @@ const handleNewUser = (data: { name: string; id: string }, io: Server, socket: S
 
 const handleLeaveChat = (socket: Socket, socketID: string, io: Server) => {
   const index = activeUsers.findIndex((user) => user.id === socketID);
-    const disconnectedUser = activeUsers.find((user) => user.id === socketID);
-    if (disconnectedUser) {
-      activeUsers.splice(index, 1);
-      io.emit('addNewUser', activeUsers);
-      const disconnectMessage = {
-        text: `${disconnectedUser.name} покинул чат.`,
-        name: disconnectedUser.name,
-        messageID: disconnectedUser.id,
-        socketID: socket.id,
-        time: Date.now(),
-      };
-      messages.push(disconnectMessage);
-      io.emit('messageRes', disconnectMessage);
-    }
+  const disconnectedUser = activeUsers.find((user) => user.id === socketID);
+  if (disconnectedUser) {
+    activeUsers.splice(index, 1);
+    io.emit('addNewUser', activeUsers);
+    const disconnectMessage = {
+      text: `${disconnectedUser.name} покинул чат.`,
+      name: disconnectedUser.name,
+      messageID: disconnectedUser.id,
+      socketID: socket.id,
+      time: Date.now(),
+    };
+    messages.push(disconnectMessage);
+    io.emit('messageRes', disconnectMessage);
+  }
 };
