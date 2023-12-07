@@ -1,38 +1,41 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import userSlice from "./features/userSlice";
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import userSlice from './features/userSlice';
+// import usersSlice from './features/usersSlice';
+
+const persistConfig = {
+  key: 'root',
+  storage,
+};
 
 const rootReducer = combineReducers({
   user: userSlice,
-})
+  // users: usersSlice,
+});
 
-// const LocalStorageMiddleware = (store: any ) => (next: any) => (action: any) => {
-//   const result = next(action);
-//   localStorage.setItem('reduxState', JSON.stringify(store.getState()));
-//   return result;
-// };
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-// const loadState = () => {
-//   try {
-//     const serializedState = localStorage.getItem('reduxState');
-//     if (serializedState === null) {
-//       return undefined;
-//     }
-//     return JSON.parse(serializedState);
-//   } catch (err) {
-//     return undefined;
-//   }
-// };
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+});
 
-export const store = configureStore({
-  reducer: rootReducer,
-  // preloadedState: loadState(),
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware({
-  //     serializableCheck: false,
-  //   }).concat(LocalStorageMiddleware),
-}) 
-
-
-
+export const persistore = persistStore(store);
+export default store;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

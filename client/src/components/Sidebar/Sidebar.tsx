@@ -7,6 +7,7 @@ import { useAppDispatch } from '../../hooks/reduxHook';
 import { removeUser } from '../../store/features/userSlice';
 import { FaRegUserCircle } from 'react-icons/fa';
 
+
 interface Users {
   name: string;
   socketID: string;
@@ -25,7 +26,7 @@ export const Sidebar = () => {
     return () => {
       socket.off('addNewUser');
     };
-  }, [socket]);
+  }, [socket, dispatch]);
 
   const handleLeave = () => {
     localStorage.removeItem('user');
@@ -38,7 +39,7 @@ export const Sidebar = () => {
     <div className={classes.sidebar}>
       <h3 className={classes.sidebar__header}>Пользователи</h3>
       <ul className={classes.sidebar__users}>
-        {users.map((user) => (
+        {users && users.map((user) => (
           <li key={`${socket.id}-${Math.random()}`}>
             <FaRegUserCircle className={classes.icon}/>
             <p>{user.name}</p>

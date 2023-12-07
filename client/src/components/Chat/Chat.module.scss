@@ -9,9 +9,14 @@
   flex-direction: column;
 
   &__send{
-    // height: 100px;
     display: flex;
-    align-items:flex-end;
+    align-items:center;
+    justify-content: center;
+
+    &__sort {
+      color: $primary-color;
+      font-size: 30px;
+    }
   }
 }
 

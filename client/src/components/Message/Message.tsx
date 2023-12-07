@@ -1,4 +1,3 @@
-// import { useEffect, useState } from 'react';
 import { useSocket } from '../../Context/SocketContext';
 import classes from './Message.module.scss';
 
@@ -7,6 +6,7 @@ interface IMessage {
   name: string;
   messageID: string;
   socketID: string;
+  time: number;
 }
 
 interface Messages {
@@ -15,43 +15,25 @@ interface Messages {
 
 const Message: React.FC<Messages> = ({ messages }) => {
   const socket = useSocket();
-  // const [newUserMessage, setNewUserMessage] = useState<string>('');
 
-  // useEffect(() => {
-  //   const handleNewUser = (newUserData: { name: string; id: string }) => {
-  //     setNewUserMessage(`${newUserData.name} присоединился к чату!`);
-  //     // Убрать сообщение через определенное время
-  //     // setTimeout(() => {
-  //     //   setNewUserMessage('');
-  //     // }, 5000); // Измените таймаут по необходимости
-  //   };
-
-  //   // Подписываемся на событие при добавлении нового пользователя
-  //   socket.on('newUserAdded', handleNewUser);
-
-  //   // Очищаем слушатель события при размонтировании компонента
-  //   return () => {
-  //     socket.off('newUserAdded', handleNewUser);
-  //   };
-  // }, [socket]);
+  const formatTime = (time: number): string => {
+    const options: Intl.DateTimeFormatOptions = {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    };
+    return new Intl.DateTimeFormat('ru-RU', options).format(new Date(time));
+  };
 
   return (
     <div className={classes.area}>
-      {/* {newUserMessage && (
-        <div key='newUserMessage'>
-          <p>Система</p>
-          <div>
-            <p>{newUserMessage}</p>
-          </div>
-        </div>
-      )} */}
-
-      {messages.map((mes: IMessage) => 
+      {messages.map((mes: IMessage) =>
         mes.socketID === socket.id ? (
           <div className={classes.area__message} key={mes.messageID}>
             <p className={classes.area__message__nameSen}>Вы</p>
             <div className={classes.area__message__sender}>
               <p>{mes.text}</p>
+              <span>{formatTime(mes.time)}</span>
             </div>
           </div>
         ) : (
@@ -59,6 +41,7 @@ const Message: React.FC<Messages> = ({ messages }) => {
             <p className={classes.area__message__nameRes}>{mes.name}</p>
             <div className={classes.area__message__recipiens}>
               <p>{mes.text}</p>
+              <span>{formatTime(mes.time)}</span>
             </div>
           </div>
         )
