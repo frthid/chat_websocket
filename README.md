@@ -1,21 +1,32 @@
-# Журнал событий
-
+# SocketChat
+Многопользовательский чат на websocket с уникальными пользователями
 ## Команды:
 ```
-git clone https://github.com/frthid/event-journal.git
-cd ./event-journal
-npm install
+git clone https://github.com/frthid/chat_websocket.git
+cd chat_websocket
+npm run install-all-deps
+npm install npm-run-all
 npm run dev
 ```
 ### Функционал
-- Просмотра списка событий в виде карточек или в виде таблицы
-- Возможность отметить событие прочитанным
-- Поиск по тексту сообщения
-- Пагинация
+- Ввод никнейма
+- Отправка сообщений
+- Сортировка сообщений по времени
 
 ### Экосистема
-* `TypeScript`
-* `React SPA`
-* `sass` -  для scss
-* `classnames` - для модулей scss
-* `ESlint` - для линтинга
+#### Клиент
+- `TypeScript`
+- `React SPA`
+- `Socket.IO`
+- `redux-persist`
+- `react-router`
+- `react-icons`
+- `Redux-Toolkit` - state-manager
+- `sass` -  для scss
+- `classnames` - для модулей scss
+- `ESlint` - для линтинга
+#### Сервер
+- `TypeScript`
+- `NodeJS`
+- `Express.js`
+
