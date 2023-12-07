@@ -19,9 +19,7 @@ export const handleSocket = (io: Server) => {
     });
 
     socket.on('newUser', (data: { name: string; id: string }) => {
-      console.log('do', activeUsers);
       handleNewUser(data, io, socket);
-      console.log('posle', activeUsers);
     });
 
     socket.on('leaveChat', (socketID: string) => {
